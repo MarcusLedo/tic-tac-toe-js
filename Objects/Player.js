@@ -4,7 +4,7 @@ class Player {
 
   constructor(name, active) {
     this.name = name;
-    this.active;
+    this.active = active;
   }
 
   isActive() {
