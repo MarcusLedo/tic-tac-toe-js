@@ -7,16 +7,18 @@ class Board {
     this.#rows = size;
     this.#columns = size;
 
-    this.#gameBoard = this.buildBoard(size);
+    this.#gameBoard = this.#buildBoard(size);
   }
 
   /**
    * buildBoard monta/inicializa o tabuleiro
    * de maneira dinâmica de acordo com tamanho.
    * Isso inclui as células vazias e os
-   * caracteres (-, +, |).
+   * caracteres (—, +, |).
+   *
+   * sim... isso '—' é um em dash. Não estou usando AI!!!
    */
-  buildBoard(size) {
+  #buildBoard(size) {
     // Fazemos o cálculo size * 2 - 1 para levar em conta os caractres
     const rows = size * 2 - 1;
     const columns = size * 2 - 1;
