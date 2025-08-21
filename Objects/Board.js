@@ -2,6 +2,7 @@ class Board {
   #rows = 3;
   #columns = 3;
   #gameBoard;
+  validSpaces;
 
   constructor(size) {
     this.#rows = size;
@@ -11,7 +12,8 @@ class Board {
   }
 
   /**
-   * buildBoard monta/inicializa o tabuleiro
+   * buildBoard
+   * monta/inicializa o tabuleiro
    * de maneira dinâmica de acordo com tamanho.
    * Isso inclui as células vazias e os
    * caracteres (—, +, |).
@@ -50,11 +52,41 @@ class Board {
 
   printBoard() {
     this.#gameBoard.forEach((elem) => console.log(...elem));
+    console.log("\n");
   }
 
   getBoard() {
     const board = this.#gameBoard;
     return board;
+  }
+
+  /**
+   * updateBoard
+   * Recebe uma coordenda (x, y) e
+   * atualiza a posição com X ou O
+   */
+  updateBoard(x, y) {
+    const [coordX, coordY] = this.convertCoordinates([x, y]);
+    this.#gameBoard[coordX][coordY] = "X";
+  }
+
+  /**
+   * convertCoordinates
+   * Converte um array de coordenada (x, y)
+   * para se adequar a nossa matriz, que leva em
+   * conta os caracteres (—, +, |)
+   */
+  convertCoordinates(coordinates) {
+    let coordX = coordinates[0];
+    let coordY = coordinates[1];
+
+    // X
+    coordinates[0] = coordX * 2 - 2;
+
+    // Y
+    coordinates[1] = coordY * 2 - 2;
+
+    return coordinates;
   }
 }
 
