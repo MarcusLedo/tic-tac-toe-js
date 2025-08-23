@@ -1,16 +1,17 @@
 import { Board } from "./Board.js";
+import { Player } from "./Player.js";
 
 class Game {
   board;
   player1;
   player2;
-  #turn;
+  #turnCounter;
 
-  constructor(size) {
+  constructor(size, p1Name, p2Name) {
     this.board = new Board(size);
-    //this.player1 = player1;
-    //this.player2 = player2;
-    this.#turn = 0;
+    this.player1 = new Player(p1Name, true, "X");
+    this.player2 = new Player(p2Name, false, "O");
+    this.#turnCounter = 0;
   }
 
   isPositionEmpty(x, y) {
@@ -39,13 +40,28 @@ class Game {
   }
 
   isGameInProgress() {
-    if (this.#turn === this.board.getRows() * this.board.getColumns())
+    if (this.#turnCounter === this.board.getRows() * this.board.getColumns())
       return false;
     else return true;
   }
 
   incrementTurn() {
-    this.#turn++;
+    this.#turnCounter++;
+  }
+
+  getActivePlayerSymbol() {
+    if (this.player1.active === true) return this.player1.getSymbol();
+    else return this.player2.getSymbol();
+  }
+
+  switchActivePlayer() {
+    if (this.player1.isActive()) {
+      this.player1.active = false;
+      this.player2.active = true;
+    } else {
+      this.player1.active = true;
+      this.player2.active = false;
+    }
   }
 }
 

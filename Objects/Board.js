@@ -72,9 +72,9 @@ class Board {
    * Recebe uma coordenda (x, y) e
    * atualiza a posição com X ou O
    */
-  updateBoard(x, y) {
+  updateBoard(x, y, symbol) {
     const [coordX, coordY] = this.convertCoordinates([x, y]);
-    this.#gameBoard[coordX][coordY] = "X";
+    this.#gameBoard[coordX][coordY] = symbol;
   }
 
   /**
