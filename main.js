@@ -9,17 +9,20 @@ const size = prompt("Size of the board: ");
 const p1Name = prompt("Player 1 name: ");
 const p2Name = prompt("Player 2 name: ");
 const game = new Game(size, p1Name, p2Name);
+let isThereAWinner = false;
 
-while (game.isGameInProgress()) {
+while (game.isGameInProgress() && !isThereAWinner) {
   const [x, y] = getPlay();
   const symbol = game.getActivePlayerSymbol();
 
   game.board.updateBoard(x, y, symbol);
+  isThereAWinner = game.isWinPlay([x, y]);
 
   game.switchActivePlayer();
   game.incrementTurn();
 }
 
+game.board.printBoard();
 console.log("END");
 
 //------------------------------ FUNCTIONS ------------------------------

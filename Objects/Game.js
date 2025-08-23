@@ -63,6 +63,74 @@ class Game {
       this.player2.active = false;
     }
   }
+
+  isWinPlay(play) {
+    const [x, y] = play;
+    const sizeRow = this.board.getRows();
+    const sizeColumns = this.board.getColumns();
+
+    if (this.isRowEqual(x)) return true;
+    if (this.isColumnEqual(y)) return true;
+
+    if (this.isDiagonalEqual(x)) return true;
+
+    return false;
+  }
+
+  isRowEqual(row) {
+    const x = row;
+    const sizeRow = this.board.getRows();
+    const sizeColumns = this.board.getColumns();
+    const rowAux = [];
+
+    for (let j = 1; j <= sizeColumns; j++) {
+      rowAux.push(this.board.getPostion(x, j));
+    }
+
+    if (rowAux[0] !== " ")
+      return rowAux.every((elem, i, arr) => elem === arr[0]);
+
+    return false;
+  }
+
+  isColumnEqual(column) {
+    const y = column;
+    const sizeRow = this.board.getRows();
+    const sizeColumns = this.board.getColumns();
+    const columnAux = [];
+
+    for (let i = 1; i <= sizeRow; i++) {
+      columnAux.push(this.board.getPostion(i, y));
+    }
+
+    if (columnAux[0] !== " ")
+      return columnAux.every((elem, i, arr) => elem === arr[0]);
+
+    return false;
+  }
+
+  isDiagonalEqual(diagonal) {
+    const z = diagonal;
+    const sizeRow = this.board.getRows();
+    const sizeColumns = this.board.getColumns();
+    const DP = []; //Diagonal Principal
+    const DS = []; //Diagonal Secundária
+
+    //Checando DP e DS
+    let j = sizeRow;
+    for (let i = 1; i <= sizeRow; i++) {
+      DP.push(this.board.getPostion(i, i));
+      DS.push(this.board.getPostion(i, j));
+      j--;
+    }
+
+    if (DP.every((elem, i, arr) => elem === arr[0]) && DP[0] !== " ")
+      return true;
+    if (DS.every((elem, i, arr) => elem === arr[0]) && DS[0] !== " ")
+      return true;
+
+    return false;
+  }
 }
 
 export { Game };
