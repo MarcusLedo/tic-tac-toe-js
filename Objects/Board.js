@@ -2,13 +2,20 @@ class Board {
   #rows = 3;
   #columns = 3;
   #gameBoard;
-  validSpaces;
 
   constructor(size) {
     this.#rows = size;
     this.#columns = size;
 
     this.#gameBoard = this.#buildBoard(size);
+  }
+
+  getRows() {
+    return this.#rows;
+  }
+
+  getColumns() {
+    return this.#columns;
   }
 
   /**
@@ -87,6 +94,31 @@ class Board {
     coordinates[1] = coordY * 2 - 2;
 
     return coordinates;
+  }
+
+  /**
+   * getPosition
+   * Retorna o caractere que está na
+   * posição passada como argumento
+   */
+  getPostion(x, y) {
+    const [coordX, coordY] = this.convertCoordinates([x, y]);
+    const position = this.#gameBoard[coordX][coordY];
+
+    return position;
+  }
+
+  /**
+   * getDimensions
+   * Retorna as dimensões da matriz (3x3, 4x4) levando
+   * em conta os caracteres (—, +, |)
+   */
+
+  getDimensions() {
+    const x = this.#rows * 2 - 1;
+    const y = this.#columns * 2 - 1;
+
+    return [x, y];
   }
 }
 

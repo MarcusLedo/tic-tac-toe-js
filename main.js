@@ -1,23 +1,34 @@
-import { Board } from "./Objects/Board.js";
+import { Game } from "./Objects/Game.js";
 import promptSync from "prompt-sync";
 
 const prompt = promptSync();
-let temp = 0;
 
 const size = prompt("Size of the board: ");
-const board = new Board(size);
+const game = new Game(size);
+game.board.printBoard();
 
-while(temp < size*size){
-    const coordinates = prompt("Type the coordinates of place you wish to play (ex.: 2 1): ");
-    const x = parseInt(coordinates.slice(0, 1), 10);
-    const y = parseInt(coordinates.slice(2), 10);
+while (game.isGameInProgress()) {
+  const [x, y] = getPlay();
 
-    console.log(`"${x}" "${y}"`);
+  game.board.updateBoard(x, y);
+  game.board.printBoard();
 
-    board.updateBoard(x, y);
-    board.printBoard();
-
-    temp++;
+  game.incrementTurn();
 }
 
 console.log("END");
+
+function getPlay() {
+  let x, y;
+  do {
+    const coordinates = prompt(
+      "Type the coordinates of place you wish to play (ex.: 2 1): "
+    );
+    x = parseInt(coordinates.slice(0, 1), 10);
+    y = parseInt(coordinates.slice(2), 10);
+
+    if (!game.isPlayValid(x, y)) console.log("ERROR - INVALID PLAY");
+  } while (!game.isPlayValid(x, y));
+
+  return [x, y];
+}
