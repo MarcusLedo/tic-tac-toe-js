@@ -54,6 +54,11 @@ class Game {
     else return this.player2.getSymbol();
   }
 
+  getActivePlayer() {
+    if (this.player1.isActive()) return this.player1;
+    else return this.player2;
+  }
+
   switchActivePlayer() {
     if (this.player1.isActive()) {
       this.player1.active = false;
@@ -130,6 +135,12 @@ class Game {
       return true;
 
     return false;
+  }
+
+  printWinScreen() {
+    const winner = this.getActivePlayer();
+
+    console.log(`${winner.getName()} ('${winner.getSymbol()}') WON!!`);
   }
 }
 

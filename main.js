@@ -4,26 +4,37 @@ import promptSync from "prompt-sync";
 //------------------------------ MAIN ------------------------------
 
 const prompt = promptSync();
+let playAgain;
 
-const size = prompt("Size of the board: ");
-const p1Name = prompt("Player 1 name: ");
-const p2Name = prompt("Player 2 name: ");
-const game = new Game(size, p1Name, p2Name);
-let isThereAWinner = false;
+do {
+  const size = prompt("Size of the board: ");
+  const p1Name = prompt("Player 1 name ('X'): ");
+  const p2Name = prompt("Player 2 name ('O'): ");
+  const game = new Game(size, p1Name, p2Name);
+  let isThereAWinner = false;
 
-while (game.isGameInProgress() && !isThereAWinner) {
-  const [x, y] = getPlay();
-  const symbol = game.getActivePlayerSymbol();
+  while (game.isGameInProgress() && !isThereAWinner) {
+    const [x, y] = getPlay(game);
+    const symbol = game.getActivePlayerSymbol();
 
-  game.board.updateBoard(x, y, symbol);
-  isThereAWinner = game.isWinPlay([x, y]);
+    game.board.updateBoard(x, y, symbol);
+    isThereAWinner = game.isWinPlay([x, y]);
 
-  game.switchActivePlayer();
-  game.incrementTurn();
-}
+    if (!isThereAWinner) game.switchActivePlayer();
+    game.incrementTurn();
+  }
 
-game.board.printBoard();
-console.log("END");
+  console.clear();
+  game.board.printBoard();
+
+  if (isThereAWinner) game.printWinScreen();
+  else console.log("No winner...");
+
+  playAgain = prompt("Do you wish to play again? (y - n): ");
+} while (playAgain === "y");
+
+console.clear();
+console.log("Thank you for playing! The End.");
 
 //------------------------------ FUNCTIONS ------------------------------
 
@@ -32,7 +43,7 @@ console.log("END");
  * Valida a jogada para que o board possa
  * ser atualizado sem causar nenhum tipo de bug
  */
-function getPlay() {
+function getPlay(game) {
   let x, y;
   do {
     game.board.printBoard();
